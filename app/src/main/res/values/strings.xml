@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Network</string>
     <string name="openWebView">openWebView</string>
+    <string name="useHttpURLConnection">useHttpURLConnection</string>
 </resources>

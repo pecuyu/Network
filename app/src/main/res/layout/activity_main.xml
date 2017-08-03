@@ -10,7 +10,21 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.yu.network.MainActivity">
 
+    <TextView
+        android:id="@+id/id_tv_show_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="useHttpURLConnection"
+        android:text="@string/useHttpURLConnection"
+        android:layout_above="@+id/id_ll_wv"
+        android:textAllCaps="false" />
+
     <LinearLayout
+        android:id="@+id/id_ll_wv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -20,8 +34,8 @@
             android:id="@+id/id_et_link"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:hint="please input link"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:hint="please input link" />
 
         <Button
             android:layout_width="wrap_content"
@@ -30,5 +44,6 @@
             android:text="@string/openWebView"
             android:textAllCaps="false" />
     </LinearLayout>
+
 
 </RelativeLayout>
