@@ -8,6 +8,12 @@ public class App {
 
     private String version;
 
+    public App(String id, String name, String version) {
+        this.id = id;
+        this.name = name;
+        this.version = version;
+    }
+
     public String getId() {
         return id;
     }

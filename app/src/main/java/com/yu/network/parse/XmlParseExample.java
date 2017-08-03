@@ -7,13 +7,13 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.SAXParserFactory;
@@ -49,9 +49,9 @@ public class XmlParseExample {
                     // 完成解析某个结点
                     case XmlPullParser.END_TAG: {
                         if ("app".equals(nodeName)) {
-                            Log.d("MainActivity", "id is " + id);
-                            Log.d("MainActivity", "name is " + name);
-                            Log.d("MainActivity", "version is " + version);
+                            Log.d("TAG", "id is " + id);
+                            Log.d("TAG", "name is " + name);
+                            Log.d("TAG", "version is " + version);
                         }
                         break;
                     }
@@ -69,7 +69,8 @@ public class XmlParseExample {
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             XMLReader xmlReader = factory.newSAXParser().getXMLReader();
-            ContentHandler handler = new com.yu.network.parse.ContentHandler();
+            List<App> appList = new ArrayList<>();
+            ContentHandler handler = new ContentHandler(appList);
             // 将ContentHandler的实例设置到XMLReader中
             xmlReader.setContentHandler(handler);
             // 开始执行解析
@@ -87,9 +88,9 @@ public class XmlParseExample {
                 String id = jsonObject.getString("id");
                 String name = jsonObject.getString("name");
                 String version = jsonObject.getString("version");
-                Log.d("MainActivity", "id is " + id);
-                Log.d("MainActivity", "name is " + name);
-                Log.d("MainActivity", "version is " + version);
+                Log.d("TAG", "id is " + id);
+                Log.d("TAG", "name is " + name);
+                Log.d("TAG", "version is " + version);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,11 +99,11 @@ public class XmlParseExample {
 
     private void parseJSONWithGSON(String jsonData) {
         Gson gson = new Gson();
-        List<App> appList = gson.fromJson(jsonData, new TypeToken<List<App>>() {}.getType());
+        List<App> appList = gson.fromJson(jsonData, new TypeToken<List<App>>(){}.getType());
         for (App app : appList) {
-            Log.d("MainActivity", "id is " + app.getId());
-            Log.d("MainActivity", "name is " + app.getName());
-            Log.d("MainActivity", "version is " + app.getVersion());
+            Log.d("TAG", "id is " + app.getId());
+            Log.d("TAG", "name is " + app.getName());
+            Log.d("TAG", "version is " + app.getVersion());
         }
     }
 

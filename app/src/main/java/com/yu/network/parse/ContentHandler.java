@@ -6,6 +6,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.util.List;
+
 public class ContentHandler extends DefaultHandler {
 
     private String nodeName;
@@ -16,7 +18,14 @@ public class ContentHandler extends DefaultHandler {
 
     private StringBuilder version;
 
+    private List<App> mApps;
+
+    public ContentHandler(List<App> apps) {
+        this.mApps = apps;
+    }
+
     @Override
+
     public void startDocument() throws SAXException {
         id = new StringBuilder();
         name = new StringBuilder();
@@ -47,6 +56,10 @@ public class ContentHandler extends DefaultHandler {
             Log.d("ContentHandler", "id is " + id.toString().trim());
             Log.d("ContentHandler", "name is " + name.toString().trim());
             Log.d("ContentHandler", "version is " + version.toString().trim());
+            if (mApps != null) {
+                App app = new App(id.toString().trim(), name.toString().trim(), version.toString().trim());
+                mApps.add(app);  //添加到集合
+            }
             // 最后要将StringBuilder清空掉
             id.setLength(0);
             name.setLength(0);
