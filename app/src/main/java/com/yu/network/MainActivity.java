@@ -3,6 +3,7 @@ package com.yu.network;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,6 +15,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,15 +40,20 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * 使用HttpURLConnection访问网络
+     * @param view
+     */
     public void useHttpURLConnection(View view) {
         new Thread() {
             @Override
             public void run() {
                 super.run();
+                Log.e("TAG", "in thread~");
                 HttpURLConnection conn = null;
                 BufferedReader br = null;
                 try {
-                    URL url = new URL("http://www.baidu.com");
+                    URL url = new URL("http://blog.csdn.net/zm_crazy/article/details/46652919");
                     conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
                     conn.setConnectTimeout(5000);
@@ -76,6 +86,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * 使用OkHttp访问网络
+     * @param view
+     */
+    public void useOkHttp(View view) {
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder().url("https://www.baidu.com/").build();
+                try {
+                    Response response = client.newCall(request).execute();
+                    // 注意最后调用的是string()方法，而不是toString()
+                    String result = response.body().string();
+                    Log.e("TAG", "result="+result);
+                    showResponseText(result);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    /**
      * 显示响应结果
      * @param response
      */
@@ -83,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                Log.e("TAG", "response="+response);
                 mTv.setText(response);
             }
         });
